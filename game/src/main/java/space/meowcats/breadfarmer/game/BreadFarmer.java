@@ -2,6 +2,7 @@ package space.meowcats.breadfarmer.game;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
+import com.jme3.audio.AudioNode;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -20,6 +21,8 @@ public class BreadFarmer extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        AudioNode music = new AudioNode(assetManager, "Sounds/bg.ogg", true);
+
         model = assetManager.loadModel("Models/bread.glb");
         model.setLocalScale(0.1f);
         rootNode.attachChild(model);
@@ -34,19 +37,20 @@ public class BreadFarmer extends SimpleApplication {
 
         com.jme3.input.ChaseCamera chaseCam = new com.jme3.input.ChaseCamera(cam, model, inputManager);
 
-        chaseCam.setDefaultDistance(5f); // How far away the camera stays
-        chaseCam.setMaxDistance(10f);    // Maximum zoom out
-        chaseCam.setMinDistance(2f);     // Minimum zoom in
+        chaseCam.setDefaultDistance(1f);
+        chaseCam.setMaxDistance(1f);
+        chaseCam.setMinDistance(0.5f);
+
+        music.setPositional(false);
+        music.setLooping(true);
+        music.play();
 
     }
 
     @Override
     public void simpleUpdate(float tpf) {
-        // Multiply by tpf (Time Per Frame) so the spin speed is smooth
-        // and identical on both slow and fast computers.
         float spinSpeed = 1.0f;
 
-        // This adds to the existing rotation around the Y (up) axis every frame
         model.rotate(0, spinSpeed * tpf, 0);
     }
 }
