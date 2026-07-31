@@ -23,6 +23,7 @@ public class BreadFarmer extends SimpleApplication {
     public void simpleInitApp() {
         AudioNode music = new AudioNode(assetManager, "Sounds/bg.ogg", true);
 
+        // TODO: make it so lily can take bite out of bread
         model = assetManager.loadModel("Models/bread.glb");
         model.setLocalScale(0.2f);
         rootNode.attachChild(model);
