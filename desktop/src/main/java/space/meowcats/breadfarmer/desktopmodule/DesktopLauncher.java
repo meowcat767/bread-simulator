@@ -9,6 +9,7 @@ import com.jme3.system.AppSettings;
  */
 public class DesktopLauncher {
     public static void main(String[] args) {
+        System.setProperty("java.awt.headless", "false");
         final BreadFarmer game = new BreadFarmer();
 
         final AppSettings appSettings = new AppSettings(true);
@@ -16,5 +17,6 @@ public class DesktopLauncher {
         game.setSettings(appSettings);
         game.setShowSettings(false); //Settings dialog not supported on mac
         game.start();
+        System.out.println("[DEBUG_LOG] Game started");
     }
 }

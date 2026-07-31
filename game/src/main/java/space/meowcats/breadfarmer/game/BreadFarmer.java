@@ -1,23 +1,15 @@
 package space.meowcats.breadfarmer.game;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import com.jme3.app.state.AppState;
 import com.jme3.light.DirectionalLight;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-
-/**
- * The JMonkeyEngine game entry, you should only do initializations for your game here, game logic is handled by
- * Custom states {@link com.jme3.app.state.BaseAppState}, Custom controls {@link com.jme3.scene.control.AbstractControl}
- * and your custom entities implementations of the previous.
- *
- */
+import com.jme3.scene.Spatial;
 
 public class BreadFarmer extends SimpleApplication {
+
+    private Spatial model;
 
     public BreadFarmer() {
     }
@@ -28,7 +20,7 @@ public class BreadFarmer extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        Spatial model = assetManager.loadModel("Models/bread.glb");
+        model = assetManager.loadModel("Models/bread.glb");
         model.setLocalScale(0.1f);
         rootNode.attachChild(model);
 
@@ -37,7 +29,24 @@ public class BreadFarmer extends SimpleApplication {
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
 
-        flyCam.setMoveSpeed(20f);
+        // Disable the default flycam controls
+        flyCam.setEnabled(false);
+
+        com.jme3.input.ChaseCamera chaseCam = new com.jme3.input.ChaseCamera(cam, model, inputManager);
+
+        chaseCam.setDefaultDistance(5f); // How far away the camera stays
+        chaseCam.setMaxDistance(10f);    // Maximum zoom out
+        chaseCam.setMinDistance(2f);     // Minimum zoom in
+
     }
 
+    @Override
+    public void simpleUpdate(float tpf) {
+        // Multiply by tpf (Time Per Frame) so the spin speed is smooth
+        // and identical on both slow and fast computers.
+        float spinSpeed = 1.0f;
+
+        // This adds to the existing rotation around the Y (up) axis every frame
+        model.rotate(0, spinSpeed * tpf, 0);
+    }
 }
