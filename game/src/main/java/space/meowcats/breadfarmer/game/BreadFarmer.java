@@ -24,7 +24,7 @@ public class BreadFarmer extends SimpleApplication {
         AudioNode music = new AudioNode(assetManager, "Sounds/bg.ogg", true);
 
         model = assetManager.loadModel("Models/bread.glb");
-        model.setLocalScale(0.1f);
+        model.setLocalScale(0.2f);
         rootNode.attachChild(model);
 
         DirectionalLight sun = new DirectionalLight();
@@ -37,9 +37,9 @@ public class BreadFarmer extends SimpleApplication {
 
         com.jme3.input.ChaseCamera chaseCam = new com.jme3.input.ChaseCamera(cam, model, inputManager);
 
-        chaseCam.setDefaultDistance(1f);
-        chaseCam.setMaxDistance(1f);
-        chaseCam.setMinDistance(0.5f);
+        chaseCam.setDefaultDistance(1.5f);
+        chaseCam.setMaxDistance(1.5f);
+        chaseCam.setMinDistance(1.5f);
 
         music.setPositional(false);
         music.setLooping(true);
