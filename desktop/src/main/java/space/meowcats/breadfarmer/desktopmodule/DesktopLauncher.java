@@ -13,6 +13,8 @@ public class DesktopLauncher {
         final BreadFarmer game = new BreadFarmer();
 
         final AppSettings appSettings = new AppSettings(true);
+        appSettings.setResolution(1280, 720);
+        appSettings.setTitle("Bread Simulator");
 
         game.setSettings(appSettings);
         game.setShowSettings(false); //Settings dialog not supported on mac
