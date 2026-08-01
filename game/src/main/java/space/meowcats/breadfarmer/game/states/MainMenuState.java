@@ -27,7 +27,7 @@ public class MainMenuState extends BaseAppState {
         title.setFontSize(32);
         
         Label versionLabel = menuWindow.addChild(new Label("Version: " + VersionInfo.getVersion()));
-        Label dateLabel = menuWindow.addChild(new Label("Build Date: " + VersionInfo.getBuildDate()));
+        Label dateLabel = menuWindow.addChild(new Label("Build Time: " + VersionInfo.getBuildDate()));
 
         Button startButton = menuWindow.addChild(new Button("Start Game"));
         startButton.addClickCommands(new Command<Button>() {

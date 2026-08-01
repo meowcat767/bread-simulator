@@ -19,7 +19,7 @@ task incrementVersion {
         parts[parts.length - 1] = (parts[parts.length - 1].toInteger() + 1).toString()
         version = parts.join('.')
         versionProps['version'] = version
-        versionProps['buildDate'] = new Date().format('yyyy-MM-dd HH:mm')
+        versionProps['buildDate'] = new Date().format('yyyy-MM-dd HH:mm:ss')
         versionProps.store(versionPropsFile.newWriter(), null)
         
         allprojects {
