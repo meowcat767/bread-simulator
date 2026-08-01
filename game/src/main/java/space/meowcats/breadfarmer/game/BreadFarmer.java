@@ -2,15 +2,11 @@ package space.meowcats.breadfarmer.game;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
-import com.jme3.audio.AudioNode;
-import com.jme3.light.DirectionalLight;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
+import com.simsilica.lemur.GuiGlobals;
+import space.meowcats.breadfarmer.game.states.EnvironmentState;
+import space.meowcats.breadfarmer.game.states.MainGameState;
 
 public class BreadFarmer extends SimpleApplication {
-
-    private Spatial model;
 
     public BreadFarmer() {
     }
@@ -18,40 +14,16 @@ public class BreadFarmer extends SimpleApplication {
     public BreadFarmer(AppState... initialStates) {
         super(initialStates);
     }
-
+    
     @Override
     public void simpleInitApp() {
-        AudioNode music = new AudioNode(assetManager, "Sounds/bg.ogg", true);
-
-        // TODO: make it so lily can take bite out of bread
-        model = assetManager.loadModel("Models/bread.glb");
-        model.setLocalScale(0.2f);
-        rootNode.attachChild(model);
-
-        DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f).normalizeLocal());
-        sun.setColor(ColorRGBA.White);
-        rootNode.addLight(sun);
-
-        // Disable the default flycam controls
-        flyCam.setEnabled(false);
-
-        com.jme3.input.ChaseCamera chaseCam = new com.jme3.input.ChaseCamera(cam, model, inputManager);
-
-        chaseCam.setDefaultDistance(1.5f);
-        chaseCam.setMaxDistance(1.5f);
-        chaseCam.setMinDistance(1.5f);
-
-        music.setPositional(false);
-        music.setLooping(true);
-        music.play();
-
+        GuiGlobals.initialize(this);
+        
+        stateManager.attach(new EnvironmentState());
+        stateManager.attach(new MainGameState());
     }
 
     @Override
     public void simpleUpdate(float tpf) {
-        float spinSpeed = 1.0f;
-
-        model.rotate(0, spinSpeed * tpf, 0);
     }
 }
