@@ -4,7 +4,30 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+def versionPropsFile = file('version.properties')
+def versionProps = new Properties()
+versionProps.load(new FileInputStream(versionPropsFile))
 
+allprojects {
+    version = versionProps['version']
+}
+
+task incrementVersion {
+    doLast {
+        def version = versionProps['version']
+        def parts = version.split('\\.')
+        parts[parts.length - 1] = (parts[parts.length - 1].toInteger() + 1).toString()
+        version = parts.join('.')
+        versionProps['version'] = version
+        versionProps['buildDate'] = new Date().format('yyyy-MM-dd HH:mm')
+        versionProps.store(versionPropsFile.newWriter(), null)
+        
+        allprojects {
+            project.version = version
+        }
+        println "Version incremented to $version"
+    }
+}
 
 subprojects {
     ext {
@@ -24,6 +47,7 @@ subprojects {
 
 
 task buildAllDistributions {
+    dependsOn incrementVersion
     dependsOn ':desktop:buildAllDistributions'
 
     doLast {

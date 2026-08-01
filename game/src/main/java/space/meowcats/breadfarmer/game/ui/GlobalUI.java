@@ -16,6 +16,7 @@ public class GlobalUI {
     private BreadFarmer app;
     private BreadVal breadVal;
     private Label scoreLabel;
+    private Label countLabel;
     private Button buyButton;
 
     public GlobalUI(BreadFarmer app) {
@@ -28,6 +29,7 @@ public class GlobalUI {
         app.getGuiNode().attachChild(myWindow);
 
         scoreLabel = myWindow.addChild(new Label("bread$: 0"));
+        countLabel = myWindow.addChild(new Label("Total Breads: 0"));
         buyButton = myWindow.addChild(new Button("Buy Bread (10$)"));
 
         buyButton.addClickCommands(new Command<Button>() {
@@ -51,6 +53,7 @@ public class GlobalUI {
 
     public void update() {
         scoreLabel.setText("bread$: " + breadVal.getBreads());
+        countLabel.setText("Total Breads: " + breadVal.getBreadCount());
         buyButton.setText("Buy Bread (" + breadVal.getBreadCost() + "$) - Owned: " + breadVal.getBreadCount());
     }
 }

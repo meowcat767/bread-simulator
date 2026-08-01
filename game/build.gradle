@@ -19,3 +19,18 @@ dependencies {
     api libs.lemur
     api libs.lemur.proto
 }
+
+processResources {
+    def versionPropsFile = file("${rootProject.projectDir}/version.properties")
+    def versionProps = new Properties()
+    versionProps.load(new FileInputStream(versionPropsFile))
+
+    inputs.file versionPropsFile
+
+    filesMatching("version.properties") {
+        expand(
+            version: versionProps['version'],
+            buildDate: versionProps['buildDate']
+        )
+    }
+}
