@@ -21,19 +21,17 @@ public class BreadFarmer extends SimpleApplication {
     public BreadFarmer(AppState... initialStates) {
         super(initialStates);
     }
+
+    public BreadVal getBreadVal() {
+        return breadVal;
+    }
     
     @Override
     public void simpleInitApp() {
         GuiGlobals.initialize(this);
 
-        Label scoreLabel = new Label("bread$: ", String.valueOf(breadVal.getBreads()));
-
-        guiNode.attachChild(scoreLabel);
-
-        float x = cam.getWidth() - scoreLabel.getPreferredSize().x - 10;
-        float y = cam.getHeight() - 10;
-
-        scoreLabel.setLocalTranslation(x, y, 0);
+        globalUI = new GlobalUI(this);
+        globalUI.masterBreadOverlay();
 
         stateManager.attach(new EnvironmentState());
         stateManager.attach(new MainGameState());
@@ -41,5 +39,7 @@ public class BreadFarmer extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) {
+        breadVal.addBreads((long)(breadVal.getBreadCount() * tpf * 50)); // Generate bread$ over time (increased rate)
+        globalUI.update();
     }
 }
