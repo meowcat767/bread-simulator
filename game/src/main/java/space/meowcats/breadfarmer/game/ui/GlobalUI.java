@@ -14,5 +14,6 @@ public class GlobalUI {
         guiGlobals = GuiGlobals.getInstance();
 
         Label scoreLabel = new Label("bread$: ", String.valueOf(breadVal.getBreads()));
+
     }
 }
