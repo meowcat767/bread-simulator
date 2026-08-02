@@ -31,7 +31,7 @@ task incrementVersion {
 
 subprojects {
     ext {
-        JAVA_VERSION = 21
+        JAVA_VERSION = 24
     }
 
     plugins.withType(JavaPlugin) {

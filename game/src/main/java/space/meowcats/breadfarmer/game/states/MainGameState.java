@@ -21,10 +21,13 @@ import space.meowcats.breadfarmer.game.BreadFarmer;
 public class MainGameState extends BaseAppState {
 
     private Node breadNode;
+    private Node sunscreenNode;
     private Node rootNode;
     private List<Spatial> breads = new ArrayList<>();
     private Spatial breadModel;
     private SimpleApplication simpleApp;
+    private Spatial sunscreenModel;
+    private List<Spatial> sunscreens = new ArrayList<>();
 
     private ActionListener actionListener = new ActionListener() {
         @Override
@@ -54,7 +57,9 @@ public class MainGameState extends BaseAppState {
         this.simpleApp = (SimpleApplication) app;
         this.rootNode = simpleApp.getRootNode();
         this.breadNode = new Node("BreadNode");
+        this.sunscreenNode = new Node("SunscreenNode");
         rootNode.attachChild(breadNode);
+        rootNode.attachChild(sunscreenNode);
 
         simpleApp.getFlyByCamera().setMoveSpeed(10);
         simpleApp.getFlyByCamera().setEnabled(false);
@@ -71,6 +76,10 @@ public class MainGameState extends BaseAppState {
 
         simpleApp.getInputManager().addMapping("Click", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         simpleApp.getInputManager().addListener(actionListener, "Click");
+    }
+
+    public void sunscreen(Application app) {
+        sunscreenModel = app.getAssetManager().loadModel("Models/sunscreen_bottle.glb");
     }
 
     public void updateBreadModels(Application app) {
@@ -91,6 +100,27 @@ public class MainGameState extends BaseAppState {
                     0,
                     FastMath.sin(angle) * radius
             );
+        }
+    }
+
+    public void updateSunscreenModels(Application app) {
+        BreadFarmer game = (BreadFarmer) app;
+        int targetCount = game.getBreadVal().getBreadCount();
+
+        while (breads.size() < targetCount) {
+            Spatial newSunscreen = sunscreenModel.clone();
+            breadNode.attachChild(newSunscreen);
+
+            float radius = 2.0f;
+
+            for (int i = 0; i < sunscreens.size(); i++) {
+                float angle = FastMath.TWO_PI * i / sunscreens.size();
+                sunscreens.get(i).setLocalTranslation(
+                        FastMath.cos(angle) * radius,
+                        0,
+                        FastMath.sin(angle) * radius
+                );
+            }
         }
     }
 
